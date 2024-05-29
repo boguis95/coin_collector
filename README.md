@@ -13,7 +13,6 @@ CoinCollector est une application mobile développée avec Flutter et Firebase. 
 ### Prérequis
 
 - Flutter installé sur votre machine. [Instructions d'installation](https://flutter.dev/docs/get-started/install)
-- Un projet Firebase configuré avec Firestore et Firebase Storage activés.
 
 ### Étapes
 
@@ -25,10 +24,8 @@ CoinCollector est une application mobile développée avec Flutter et Firebase. 
 
 2.	Installez les dépendances :
       flutter pub get	
-3.	Configurez Firebase :
-      •	Suivez les instructions pour ajouter Firebase à votre projet Flutter. Instructions Firebase
-      •	Ajoutez les fichiers google-services.json (pour Android) et GoogleService-Info.plist (pour iOS) dans les répertoires appropriés.
-4.	Lancez l’application :
+
+3. Lancez l’application :
       flutter run
 
 # Utilisation
