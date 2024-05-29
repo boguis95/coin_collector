@@ -8,30 +8,37 @@ class ChartScreen extends StatefulWidget {
 }
 
 class _ChartScreenState extends State<ChartScreen> {
+  // Liste pour stocker les séries de données à afficher dans le graphique
   List<charts.Series<YearlyValue, String>> _seriesLineData = [];
 
+  // Méthode pour générer les données pour le graphique à partir des données de Firestore
   _generateData(List<YearlyValue> data) {
+    // Création d'une série de données pour le graphique
     _seriesLineData.add(
       charts.Series(
         colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
         id: 'Value',
         data: data,
-        domainFn: (YearlyValue value, _) => value.year.toString(), // Utiliser l'année comme domaine (x-axis)
-        measureFn: (YearlyValue value, _) => value.totalValue, // Utiliser la valeur totale comme mesure (y-axis)
+        domainFn: (YearlyValue value, _) => value.year.toString(),
+        measureFn: (YearlyValue value, _) => value.totalValue,
       ),
     );
   }
 
+  // Méthode asynchrone pour récupérer et préparer les données de Firestore
   Future<List<YearlyValue>> _fetchData() async {
     QuerySnapshot querySnapshot = await FirebaseFirestore.instance.collection('coins').get();
     Map<int, double> yearlyValues = {};
 
+    // Parcours de chaque document dans la collection 'coins'
     querySnapshot.docs.forEach((doc) {
       int year = doc['year'];
       double value = doc['value'];
+      // Mise à jour de la map avec la valeur totale pour chaque année
       yearlyValues.update(year, (existingValue) => existingValue + value, ifAbsent: () => value);
     });
 
+    // Conversion de la map en une liste de YearlyValue et tri par année
     List<YearlyValue> data = yearlyValues.entries
         .map((entry) => YearlyValue(year: entry.key, totalValue: entry.value))
         .toList();
@@ -43,9 +50,10 @@ class _ChartScreenState extends State<ChartScreen> {
   @override
   void initState() {
     super.initState();
+    // Récupération des données et génération des séries de données pour le graphique
     _fetchData().then((data) {
       setState(() {
-        _generateData(data);
+        _generateData(data); // Génère les données pour le graphique avec les données récupérées
       });
     });
   }
@@ -54,20 +62,22 @@ class _ChartScreenState extends State<ChartScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Evolution de la Valeur Totale',
-              style: TextStyle(color: Colors.black87),),
+        title: const Text(
+          'Evolution de la Valeur Totale',
+          style: TextStyle(color: Colors.black87),
+        ),
       ),
       body: _seriesLineData.isEmpty
           ? const Center(child: CircularProgressIndicator())
           : Padding(
         padding: const EdgeInsets.all(8.0),
         child: charts.BarChart(
-          _seriesLineData,
+          _seriesLineData, // Données à afficher dans le graphique
           animate: true,
           animationDuration: Duration(seconds: 2),
           domainAxis: const charts.OrdinalAxisSpec(
             renderSpec: charts.SmallTickRendererSpec(
-              labelRotation: 60, // Rotation des labels pour une meilleure lisibilité
+              labelRotation: 60,
             ),
           ),
           behaviors: [
@@ -84,6 +94,7 @@ class _ChartScreenState extends State<ChartScreen> {
   }
 }
 
+// Classe représentant les données de valeur annuelle
 class YearlyValue {
   final int year;
   final double totalValue;

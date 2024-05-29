@@ -10,10 +10,12 @@ class AddCoinScreen extends StatefulWidget {
 }
 
 class _AddCoinScreenState extends State<AddCoinScreen> {
+  // Déclaration des contrôleurs de texte pour capturer les entrées utilisateur
   final TextEditingController yearController = TextEditingController();
   final TextEditingController rarityController = TextEditingController();
   final TextEditingController quantityController = TextEditingController();
   final TextEditingController valueController = TextEditingController();
+  // Référence à la collection 'coins' dans Firestore
   final CollectionReference coins = FirebaseFirestore.instance.collection('coins');
 
   File? _image;
@@ -23,6 +25,7 @@ class _AddCoinScreenState extends State<AddCoinScreen> {
   Future<void> _pickImageFromCamera() async {
     final pickedFile = await picker.pickImage(source: ImageSource.camera);
 
+    // Mise à jour de l'état avec l'image sélectionnée
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -48,7 +51,6 @@ class _AddCoinScreenState extends State<AddCoinScreen> {
   // Méthode pour télécharger l'image dans Firebase Storage et obtenir l'URL de téléchargement
   Future<String> _uploadImage() async {
     if (_image == null) return '';
-
     String fileName = 'coins/${DateTime.now().millisecondsSinceEpoch}.png';
     Reference storageReference = FirebaseStorage.instance.ref().child(fileName);
     UploadTask uploadTask = storageReference.putFile(_image!);
@@ -93,9 +95,11 @@ class _AddCoinScreenState extends State<AddCoinScreen> {
                 keyboardType: TextInputType.number,
               ),
               SizedBox(height: 20),
+              // Affiche l'image sélectionnée ou un texte indiquant qu'aucune image n'a été sélectionnée
               _image == null
                   ? Text('No image selected.')
                   : Image.file(_image!, height: 200),
+              // Ligne de boutons pour ouvrir la caméra ou la galerie
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
@@ -110,14 +114,18 @@ class _AddCoinScreenState extends State<AddCoinScreen> {
                 ],
               ),
               SizedBox(height: 20),
+              // Bouton pour ajouter la pièce avec les informations saisies et l'URL de l'image
               ElevatedButton(
                 onPressed: () async {
+                  // Récupération des valeurs des champs de saisie
                   final int year = int.parse(yearController.text);
                   final String rarity = rarityController.text;
                   final int quantity = int.parse(quantityController.text);
                   final double value = double.parse(valueController.text);
+                  // Téléchargement de l'image et récupération de l'URL de téléchargement
                   final String imageUrl = await _uploadImage();
 
+                  // Ajout des informations de la pièce dans Firestore
                   coins.add({
                     'year': year,
                     'rarity': rarity,
@@ -126,6 +134,7 @@ class _AddCoinScreenState extends State<AddCoinScreen> {
                     'image_url': imageUrl,
                   });
 
+                  // Retour à l'écran précédent après l'ajout de la pièce
                   Navigator.pop(context);
                 },
                 child: Text('Add Coin'),
