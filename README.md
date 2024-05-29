@@ -1,16 +1,60 @@
-# coin_collector
+# CoinCollector
 
-A new Flutter project.
+CoinCollector est une application mobile développée avec Flutter et Firebase. Elle permet de collecter, gérer et visualiser des pièces de collection, avec des fonctionnalités de suivi et de visualisation de l'évolution du patrimoine.
 
-## Getting Started
+## Fonctionnalités
 
-This project is a starting point for a Flutter application.
+- **Affichage de la liste des pièces de collection** : Affiche une liste de pièces avec des informations de base telles que l'année, la rareté, la quantité et la valeur.
+- **Ajout de pièces** : Permet d'ajouter de nouvelles pièces avec des photos prises par la caméra ou sélectionnées dans la galerie.
+- **Visualisation de l'évolution du patrimoine** : Affiche un graphique montrant l'évolution de la valeur totale cumulée des pièces de collection au fil du temps.
 
-A few resources to get you started if this is your first Flutter project:
+## Installation
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Prérequis
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Flutter installé sur votre machine. [Instructions d'installation](https://flutter.dev/docs/get-started/install)
+- Un projet Firebase configuré avec Firestore et Firebase Storage activés.
+
+### Étapes
+
+1. Clonez le dépôt :
+
+   ```bash
+   git clone https://github.com/votre-utilisateur/coincollector.git
+   cd coincollector
+
+2.	Installez les dépendances :
+      flutter pub get	
+3.	Configurez Firebase :
+      •	Suivez les instructions pour ajouter Firebase à votre projet Flutter. Instructions Firebase
+      •	Ajoutez les fichiers google-services.json (pour Android) et GoogleService-Info.plist (pour iOS) dans les répertoires appropriés.
+4.	Lancez l’application :
+      flutter run
+
+# Utilisation
+
+Ajouter une pièce
+
+	1.	Cliquez sur le bouton + pour ajouter une nouvelle pièce.
+	2.	Remplissez les informations de la pièce (année, rareté, quantité, valeur).
+	3.	Prenez une photo de la pièce ou sélectionnez-en une depuis la galerie.
+	4.	Cliquez sur Add Coin pour ajouter la pièce à la collection.
+
+# Visualiser l’évolution du patrimoine
+
+	1.	Cliquez sur l’icône de graphique dans la barre d’applications.
+	2.	Consultez le graphique affichant l’évolution de la valeur totale cumulée de votre collection au fil du temps.
+
+# Structure du Projet
+
+	•	lib/
+	•	main.dart : Point d’entrée de l’application.
+	•	coin_list_screen.dart : Écran affichant la liste des pièces de collection.
+	•	add_coin_screen.dart : Écran permettant d’ajouter de nouvelles pièces.
+	•	chart_screen.dart : Écran affichant le graphique de l’évolution du patrimoine.
+
+# Auteurs
+
+	• Papa Moussa Laye GADIAGA	- https://github.com/boguis95
+
+
